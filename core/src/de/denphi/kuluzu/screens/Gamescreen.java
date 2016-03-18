@@ -16,7 +16,7 @@ public class Gamescreen implements Screen {
     @Override
     public void show() {
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
+        img = new Texture("testbild.png");
     }
 
     @Override
