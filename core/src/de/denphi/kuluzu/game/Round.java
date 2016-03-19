@@ -13,10 +13,12 @@ import de.denphi.kuluzu.gameobjects.Animal;
 /**
  * Created by Phil and Dennis on 18.03.2016.
  */
-public class Level {
+public class Round {
 
     private int shownAnimals;
     private int answerAnimals;
+
+
     /*
     currentAnimals - all animals currently choosen
     currentAnswers - all animals choosen as answer (opposite form currentAnimals + one completly equal or completly disjunct)
@@ -40,7 +42,7 @@ public class Level {
     private Array<Animal> currentAnimals = new Array<Animal>();
     private Array<Animal> currentAnswers = new Array<Animal>();
 
-    public Level(int shownAnimals, int answerAnimals, Texture background){
+    public Round(int shownAnimals, int answerAnimals, Texture background){
         this.shownAnimals=shownAnimals;
         this.answerAnimals=answerAnimals;
     }
@@ -93,19 +95,19 @@ public class Level {
 
             System.out.println(currentAnimals.get(i).getName() + "  " + currentAnimals.get(i).getTcolor());
         }
-        disjunctArrayAnimals = Kuluzu.animalArray;
+        disjunctArrayAnimals.addAll(Kuluzu.animalArray);
         disjunctArrayAnimals.removeAll(currentNames, false);
-        disjunctArrayColors = Kuluzu.colorArray;
+        disjunctArrayColors.addAll(Kuluzu.colorArray);
         disjunctArrayColors.removeAll(currentColors, false);
 
         System.out.println(disjunctArrayAnimals.toString(","));
         System.out.println(disjunctArrayColors.toString(","));
     }
-    public void createAnwers(){
+    public void createDisjunctAnwers(int da){
         Random r =  new Random();
         int randomCurrent, randomDisjunct;
         System.out.println("------------");
-        for(int i=0; i< (2*shownAnimals); i++) {
+        for(int i=0; i< da; i++) {
             //vorhandenen Farben mit nicht vorhandenen Tieren
             randomCurrent = r.nextInt(currentNames.size);
             randomDisjunct = r.nextInt(disjunctArrayAnimals.size);

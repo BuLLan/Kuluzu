@@ -8,7 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import de.denphi.kuluzu.game.Level;
+import de.denphi.kuluzu.Kuluzu;
+import de.denphi.kuluzu.manager.Resourcenmanager;
 
 /**
  * Created by Phil on 18.03.2016.
@@ -16,15 +17,27 @@ import de.denphi.kuluzu.game.Level;
 public class Gamescreen implements Screen {
     SpriteBatch batch;
     Texture img;
-    ShapeRenderer shapeRenderer;
+    Resourcenmanager rm = Resourcenmanager.getInstance();
+
+    public static float enclosureBegin;
+    public static float enclosureEnd;
+
+    public static float dropMaxHigh;
+    public static float animalSize;
 
     @Override
     public void show() {
+
+        enclosureBegin = (float) (Kuluzu.displayheight*0.45);
+        enclosureEnd = (float) (Kuluzu.displayheight*0.9);
+        animalSize = (float) (enclosureBegin*0.3);
+        dropMaxHigh = enclosureEnd-animalSize;
+
+
         batch = new SpriteBatch();
-        img = new Texture("testbild.png");
-        Level l = new Level(4,8, new Texture("badlogic.jpg") );
-        l.createAnimals();
-        l.createAnwers();
+        img = new Texture("ui/background.png");
+
+
     }
 
     @Override
@@ -32,15 +45,10 @@ public class Gamescreen implements Screen {
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(img, 0, 0);
+        batch.draw(img, 0, 0, Kuluzu.displaywidth, Kuluzu.displayheight);
+        batch.draw(rm.getTexture("sheepred"), 80, enclosureBegin, animalSize, animalSize);
         batch.end();
-        shapeRenderer = new ShapeRenderer();
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() * (float) 0.45);
-        shapeRenderer.rect(0, Gdx.graphics.getHeight()*(float) 0.45, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()*(float) 0.45);
 
-        shapeRenderer.end();
     }
 
     @Override
@@ -65,6 +73,6 @@ public class Gamescreen implements Screen {
 
     @Override
     public void dispose() {
-
+        System.out.println("close-----------------------");
     }
 }
