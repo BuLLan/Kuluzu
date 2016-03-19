@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 import de.denphi.kuluzu.screens.Gamescreen;
 
@@ -23,10 +24,19 @@ public class Kuluzu extends Game {
 	public static Texture sheep_grey, duck_grey, pig_grey, fox_grey, bear_grey, squirrel_grey,  hippo_grey, crocodile_grey, elephant_grey, monkey_grey;
 	public static Texture sheep_black, duck_black, pig_black, fox_black, bear_black, squirrel_black,  hippo_black, crocodile_black, elephant_black, monkey_black;
 */
+
+	//Arrays with all colors and animals for a random use
+//	public static String[] colorArray = {"white", "yellow", "rosa", "orange", "red", "lila", "green", "grey", "black", "brown"};
+	public static Array<String> colorArray = new Array<String>();//  {"white", "yellow", "rosa", "orange", "red", "lila", "green", "grey", "black", "brown"};
+	public static Array<String> animalArray = new Array<String>();
+	//public static String[] animalArray = {"sheep","duck","pig","fox","bear","squirrel","hippo", "crocodile", "elephant","monkey"};
+
 	@Override
 	public void create () {
-		setScreen(new Gamescreen());
 
+		colorArray.addAll("white", "yellow", "rosa", "orange", "red", "lila", "green", "grey", "black", "brown");
+		animalArray.addAll("sheep","duck", "pig", "fox", "bear","squirrel","hippo", "crocodile", "elephant","monkey");
+		setScreen(new Gamescreen());
 	/*
 		//Animals white
 		sheep_white = 	new Texture("sheep_white.jpg");
@@ -148,7 +158,6 @@ public class Kuluzu extends Game {
 		elephant_yellow =new Texture("elephant_yellow.jpg");
 		monkey_yellow =	new Texture("monkey_yellow.jpg");
 		*/
-
 
 	}
 
