@@ -17,6 +17,7 @@ public class Round {
 
     private int shownAnimals;
     private int answerAnimals;
+    private Animal sol;
 
 
     /*
@@ -30,6 +31,14 @@ public class Round {
     dcurrentColors - opposite colors of the currently choosen names -> answer colors to mix them
      */
 
+    Array<String> currentAnswerNames = new Array<String>();
+    Array<String> currentAnswerColors = new Array<String>();
+
+
+    Array<String> currentAnimalNames = new Array<String>();
+    Array<String> currentAnimalColors = new Array<String>();
+
+
     Array<String> currentNames = new Array<String>();
     Array<String> currentColors = new Array<String>();
     Array<String> dcurrentNames = new Array<String>();
@@ -41,6 +50,9 @@ public class Round {
 
     private Array<Animal> currentAnimals = new Array<Animal>();
     private Array<Animal> currentAnswers = new Array<Animal>();
+    private Array<Animal> solution = new Array<Animal>();
+
+
 
     public Round(int shownAnimals, int answerAnimals, Texture background){
         this.shownAnimals=shownAnimals;
@@ -50,7 +62,6 @@ public class Round {
     public void drawEnclosure(){
 
     }
-
 
     public int getShownAnimals() {
         return shownAnimals;
@@ -71,6 +82,80 @@ public class Round {
     public boolean isInViewport(Rectangle viewport, Animal animal){
         return animal.getX()<=viewport.getWidth()-animal.getWidth()&&animal.getY()<=viewport.getHeight()-animal.getHeight()&&animal.getY()>=viewport.getY();
     }
+
+
+
+    public void createAnswers(int anz){
+        Random r = new Random();
+
+        System.out.println("Folgende Antwortmöglichkeiten sind gegeben:");
+
+        int random;
+        for(int i=0; i<anz; i++){
+            random = r.nextInt(Kuluzu.animalArray.size);
+
+            while (currentAnswerNames.contains(Kuluzu.animalArray.get(random),false)){
+                random = r.nextInt(Kuluzu.animalArray.size);
+            }
+            currentAnswerNames.add(Kuluzu.animalArray.get(random));
+            currentAnswerColors.add(Kuluzu.colorArray.get(random));
+            currentAnswers.add(new Animal(new Texture("animals/"+Kuluzu.animalArray.get(random) + "_" + Kuluzu.colorArray.get(random)+".png"), 50, 50, Kuluzu.animalArray.get(random), "Wald", Kuluzu.colorArray.get(random)));
+
+            System.out.println(Kuluzu.animalArray.get(random)+" "+Kuluzu.colorArray.get(random));
+        }
+
+
+    }
+
+    public void createEnclosureAnimals(int anz, float prob){
+        disjunctArrayAnimals.addAll(Kuluzu.animalArray);
+        disjunctArrayAnimals.removeAll(currentAnswerNames, false);
+
+        disjunctArrayColors.addAll(Kuluzu.colorArray);
+        disjunctArrayColors.removeAll(currentAnswerColors, false);
+
+
+        Random r = new Random();
+        int random = r.nextInt(currentAnswers.size);
+        int randomK = r.nextInt(currentAnswers.size);
+        int randomD = r.nextInt(disjunctArrayAnimals.size);
+        int randomA = r.nextInt(Kuluzu.animalArray.size);
+
+        sol = currentAnswers.get(random);
+        System.out.println("Richtige Antwort ist: "+sol.getName()+" "+sol.getTcolor());
+
+        System.out.println("Folgende Tiere sind im Gehege:");
+
+        for(int i=0; i<anz; i++){
+            if (i%2==0){
+                while(currentAnimalNames.contains(currentAnswerNames.get(randomK),false )|| currentAnswerNames.get(randomK).matches(sol.getName())){
+                    randomK = r.nextInt(currentAnswers.size);
+                }
+                while(currentAnimalColors.contains(disjunctArrayColors.get(randomD), false )){
+                    randomD = r.nextInt(disjunctArrayAnimals.size);
+                }
+                currentAnimalNames.add(currentAnswerNames.get(randomK));
+                currentAnimalColors.add(disjunctArrayColors.get(randomD));
+                currentAnimals.add(new Animal(new Texture("badlogic.jpg"),50, 50, currentAnswerNames.get(randomK), "Wald", disjunctArrayColors.get(randomD)));
+                System.out.println(currentAnswerNames.get(randomK) + " " + disjunctArrayColors.get(randomD));
+            }
+            else{
+                randomK = r.nextInt(currentAnswers.size);
+                randomD = r.nextInt(disjunctArrayAnimals.size);
+                while(currentAnimalColors.contains(currentAnswerColors.get(randomK),false )|| currentAnswerColors.get(randomK).matches(sol.getTcolor())){
+                    randomK = r.nextInt(currentAnswers.size);
+                }
+                while(currentAnimalNames.contains(disjunctArrayAnimals.get(randomD), false)){
+                    randomD = r.nextInt(disjunctArrayAnimals.size);
+                }
+                currentAnimalColors.add(currentAnswerColors.get(randomK));
+                currentAnimalNames.add(disjunctArrayAnimals.get(randomD));
+                currentAnimals.add(new Animal(new Texture("badlogic.jpg"),50, 50, disjunctArrayAnimals.get(randomD), "Wald", currentAnswerColors.get(randomK)));
+                System.out.println(disjunctArrayAnimals.get(randomD) + " " + currentAnswerColors.get(randomK));
+            }
+        }
+    }
+
 
     public void createAnimals(){
         Random r =  new Random();
@@ -124,6 +209,7 @@ public class Round {
                 currentAnswers.add(new Animal(new Texture("badlogic.jpg"),50, 50, currentNames.get(randomCurrent), "Wald", disjunctArrayColors.get(randomDisjunct)));
             }
             else{
+
                 while(dcurrentNames.contains(disjunctArrayAnimals.get(randomDisjunct),false)){
                     randomDisjunct = r.nextInt(disjunctArrayAnimals.size);
                 }

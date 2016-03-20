@@ -19,20 +19,28 @@ public class Kuluzu extends Game {
 	//Arrays with all colors and animals for a random use
 	public static Array<String> colorArray = new Array<String>();//  {"white", "yellow", "rosa", "orange", "red", "lila", "green", "grey", "black", "brown"};
 	public static Array<String> animalArray = new Array<String>();
+
 	public static float displayheight;
 	public static float displaywidth;
 
 	@Override
 	public void create () {
 
+
 		displayheight= (float) Gdx.graphics.getHeight();
 		displaywidth = (float) Gdx.graphics.getWidth();
 
-		colorArray.addAll("white", "yellow", "rosa", "orange", "red", "lila", "green", "grey", "black", "brown");
+		colorArray.addAll("white", "yellow", "rosa", "red", "brown", "orange", "lila", "green", "grey", "black");
 		animalArray.addAll("sheep","duck", "pig", "fox", "bear","squirrel","hippo", "crocodile", "elephant","monkey");
+
+
+
+
 		Round r = new Round(4,8, new Texture("badlogic.jpg") );
-		r.createAnimals();
-		r.createDisjunctAnwers(4);
+		//r.createAnimals();
+		//r.createDisjunctAnwers(4);
+		r.createAnswers(4);
+		r.createEnclosureAnimals(4,1);
 		setScreen(new Gamescreen());
 
 	}

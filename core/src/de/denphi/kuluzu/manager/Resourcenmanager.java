@@ -24,8 +24,6 @@ public class Resourcenmanager {
         for (int i=0; i<Kuluzu.animalArray.size;i++){
             for (int j=0; j<Kuluzu.colorArray.size; j++){
                 textureMap.put(Kuluzu.animalArray.get(i) + Kuluzu.colorArray.get(j), new Texture("animals/"+Kuluzu.animalArray.get(i) + "_" + Kuluzu.colorArray.get(j)+".png"));
-                System.out.println(Kuluzu.animalArray.size);
-                System.out.println(Kuluzu.animalArray.get(i) + Kuluzu.colorArray.get(j));
             }
         }
     }
